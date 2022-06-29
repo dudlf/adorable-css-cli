@@ -15,6 +15,8 @@ type BuildOptions = {
 }
 type BuildContext = {
   root: string
+  /** build, watch 에 포함할 파일 확장자 목록*/
+  exts: string[]
   resolver: (style: string) => void
 } & BuildOptions
 type EntryType = {
@@ -22,7 +24,6 @@ type EntryType = {
 }
 
 const minifier = new CleanCSS()
-const supportedExts = ['svelte', 'tsx', 'jsx', 'vue', 'mdx', 'svx', 'html']
 
 export function build(root: string | undefined, options: BuildOptions) {
   const context: BuildContext = {
@@ -42,7 +43,7 @@ export function build(root: string | undefined, options: BuildOptions) {
   }
 }
 
-function resolveBuildContext(root: string | undefined, options: BuildOptions) {
+function resolveBuildContext(root: string | undefined, options: BuildOptions): Omit<BuildContext, 'resolver'> {
   return {
     root: root ?? '.',
     out: options.out,
@@ -50,11 +51,12 @@ function resolveBuildContext(root: string | undefined, options: BuildOptions) {
     minify: options.minify,
     verbose: options.verbose,
     noReset: options['noReset'],
+    exts: ['svelte', 'tsx', 'jsx', 'vue', 'mdx', 'svx', 'html'],
   }
 }
 
 function buildOnce(context: BuildContext) {
-  const pattern = [context.root, '**', `?(${supportedExts.map((ext) => `*.${ext}`).join('|')})`].join('/')
+  const pattern = [context.root, '**', `?(${context.exts.map((ext) => `*.${ext}`).join('|')})`].join('/')
   glob(pattern, async (_, matches) => {
     const entry = await filesToEntry(matches)
     const style = entryToStyle(context, entry)
@@ -69,7 +71,7 @@ function watch(context: BuildContext) {
     context.resolver(entryToStyle(context, entry))
   }
 
-  const pattern = [context.root, '**', `*.{${supportedExts.join(',')}}`].join('/')
+  const pattern = [context.root, '**', `*.{${context.exts.join(',')}}`].join('/')
   const watcher = chokidar.watch(pattern, {
     ignored: (path) => path.includes('node_modules'),
   })
