@@ -54,7 +54,7 @@ function resolveBuildContext(root: string | undefined, options: BuildOptions) {
 }
 
 function buildOnce(context: BuildContext) {
-  const pattern = path.join(context.root, '**', `?(${supportedExts.map((ext) => `*.${ext}`)})`)
+  const pattern = [context.root, '**', `?(${supportedExts.map((ext) => `*.${ext}`).join('|')})`].join('/')
   glob(pattern, async (_, matches) => {
     const entry = await filesToEntry(matches)
     const style = entryToStyle(context, entry)
@@ -69,7 +69,7 @@ function watch(context: BuildContext) {
     context.resolver(entryToStyle(context, entry))
   }
 
-  const pattern = path.join(context.root, '**', `*.{${supportedExts.join(',')}}`)
+  const pattern = [context.root, '**', `*.{${supportedExts.join(',')}}`].join('/')
   const watcher = chokidar.watch(pattern, {
     ignored: (path) => path.includes('node_modules'),
   })
