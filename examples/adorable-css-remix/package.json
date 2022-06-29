@@ -3,7 +3,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "remix build",
-    "dev": "concurrently  \"npm run watch:css\" \"remix dev\"",
+    "dev": "concurrently  \"adorable-css app -o app/styles/adorable.css -w\" \"remix dev\"",
     "watch:css": "adorable-css app -o app/styles/adorable.css -w",
     "start": "remix-serve build"
   },
