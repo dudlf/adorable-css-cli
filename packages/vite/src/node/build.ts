@@ -59,7 +59,7 @@ function resolveBuildContext(root: string | undefined, options: BuildOptions): O
 }
 
 function buildOnce(context: BuildContext) {
-  const pattern = [context.root, `!(${context.exclude.join('|')})`, `?(${context.exts.map((ext) => `*.${ext}`).join('|')})`].join('/')
+  const pattern = [context.root, `!(${context.exclude.join('|')})`, '**', `?(${context.exts.map((ext) => `*.${ext}`).join('|')})`].join('/')
   glob(pattern, async (_, matches) => {
     const entry = await filesToEntry(matches)
     const style = entryToStyle(context, entry)
