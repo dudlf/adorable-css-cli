@@ -17,6 +17,8 @@ type BuildContext = {
   root: string
   /** build, watch 에 포함할 파일 확장자 목록*/
   exts: string[]
+  /** build, watch 에 제외할 폴더 또는 파일 목록 */
+  exclude: string[]
   resolver: (style: string) => void
 } & BuildOptions
 type EntryType = {
@@ -52,11 +54,12 @@ function resolveBuildContext(root: string | undefined, options: BuildOptions): O
     verbose: options.verbose,
     noReset: options['noReset'],
     exts: ['svelte', 'tsx', 'jsx', 'vue', 'mdx', 'svx', 'html'],
+    exclude: ['node_modules', '.pnpm-store', '.cache'],
   }
 }
 
 function buildOnce(context: BuildContext) {
-  const pattern = [context.root, '**', `?(${context.exts.map((ext) => `*.${ext}`).join('|')})`].join('/')
+  const pattern = [context.root, `!(${context.exclude.join('|')})`, `?(${context.exts.map((ext) => `*.${ext}`).join('|')})`].join('/')
   glob(pattern, async (_, matches) => {
     const entry = await filesToEntry(matches)
     const style = entryToStyle(context, entry)
@@ -73,7 +76,7 @@ function watch(context: BuildContext) {
 
   const pattern = [context.root, '**', `*.{${context.exts.join(',')}}`].join('/')
   const watcher = chokidar.watch(pattern, {
-    ignored: (path) => path.includes('node_modules'),
+    ignored: (path) => context.exclude.some((ex) => path.includes(ex)),
   })
 
   watcher.on('change', async (filepath) => {
