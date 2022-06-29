@@ -89,11 +89,11 @@ For more info, run any command with the `--help` flag:
   $ adorable-css --help
 
 Options:
-  -o, --out <dir>  [string] output Directory (default: adorable.css)
-  -w, --watch      [boolean] rebuilds when modules have changed on disk (default: false)
-  -m, --minify     [boolean] minify output css (default: false)
-  -v, --verbose    [boolean] verbose build output (default: false)
-  --noReset        [boolean] exclude reset css from output (default: false)
+  -o, --out <filepath>  [string]  path of output css file (default: adorable.css)
+  -w, --watch           [boolean] rebuilds when modules have changed on disk (default: false)
+  -m, --minify          [boolean] minify output css (default: false)
+  -v, --verbose         [boolean] verbose build output (default: false)
+  --noReset             [boolean] exclude reset css from output (default: false)
 ```
 
 ### Vite: HMR + Build Time

@@ -8,7 +8,7 @@ const cli = cac('adorable-css')
 cli
   .command('[root]', 'build for production')
   .alias('build')
-  .option('-o, --out <dir>', '[string] output Directory', {
+  .option('-o, --out <filepath>', '[string] path of output css file', {
     default: 'adorable.css',
   })
   .option('-w, --watch', 'rebuilds when modules have changed on disk', {
