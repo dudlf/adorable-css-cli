@@ -7,11 +7,11 @@ import CleanCSS from 'clean-css'
 import glob from 'glob'
 
 type BuildOptions = {
-  'out': string
-  'watch': boolean
-  'minify': boolean
-  'verbose': boolean
-  'reset': boolean
+  out: string
+  watch: boolean
+  minify: boolean
+  verbose: boolean
+  noReset: boolean
 }
 type BuildContext = {
   root: string
@@ -44,12 +44,12 @@ export function build(root: string | undefined, options: BuildOptions) {
 
 function resolveBuildContext(root: string | undefined, options: BuildOptions) {
   return {
-    'root': root ?? '.',
-    'out': options.out,
-    'watch': options.watch,
-    'minify': options.minify,
-    'verbose': options.verbose,
-    'reset': options['reset'],
+    root: root ?? '.',
+    out: options.out,
+    watch: options.watch,
+    minify: options.minify,
+    verbose: options.verbose,
+    noReset: options['noReset'],
   }
 }
 
@@ -115,7 +115,7 @@ async function parseAtomsFromFile(file: string) {
 function entryToStyle(context: BuildContext, entry: EntryType): string {
   const allAtoms = Object.values(entry).flat()
   const styles = generateCss([...new Set(allAtoms)])
-  const css = ((context['reset'] && styles) || [reset, ...styles]).join('\n')
+  const css = ((context['noReset'] && styles) || [reset, ...styles]).join('\n')
 
   return (context.minify && minifier.minify(css).styles) || css
 }

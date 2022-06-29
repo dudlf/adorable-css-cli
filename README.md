@@ -93,7 +93,7 @@ Options:
   -w, --watch      [boolean] rebuilds when modules have changed on disk (default: false)
   -m, --minify     [boolean] minify output css (default: false)
   -v, --verbose    [boolean] verbose build output (default: false)
-  --no-reset       [boolean] exclude reset css from output (default: true)
+  --noReset        [boolean] exclude reset css from output (default: false)
 ```
 
 ### Vite: HMR + Build Time
