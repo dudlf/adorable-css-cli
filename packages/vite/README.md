@@ -127,11 +127,11 @@ For more info, run any command with the `--help` flag:
   $ adorable-css --help
 
 Options:
-  -o, --out <dir>  [string] output Directory (default: adorable.css)
-  -w, --watch      [boolean] rebuilds when modules have changed on disk (default: false)
-  -m, --minify     [boolean] minify output css (default: false)
-  -v, --verbose    [boolean] verbose build output (default: false)
-  --no-reset       [boolean] exclude reset css from output (default: true)
+  -o, --out <filepath>  [string]  path of output css file (default: adorable.css)
+  -w, --watch           [boolean] rebuilds when modules have changed on disk (default: false)
+  -m, --minify          [boolean] minify output css (default: false)
+  -v, --verbose         [boolean] verbose build output (default: false)
+  --noReset             [boolean] exclude reset css from output (default: false)
 ```
 
 > vite 환경이 아니라면 cdn을 통해서 실시간으로 개발하고 cli로 최종 빌드시 css만 포함하는 방식을 생각하고 있습니다.
