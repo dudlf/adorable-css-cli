@@ -1,7 +1,7 @@
 import { cac } from 'cac'
 import { build } from './build'
 
-export const VERSION_CLI = '0.1.0' as const
+export const VERSION_CLI = '0.2.0' as const
 
 const cli = cac('adorable-css')
 
